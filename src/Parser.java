@@ -8,10 +8,12 @@ import java.util.Scanner;
 
 public class Parser {
 	
+	List<List<Course>> courses = new ArrayList<>();
+	
 	public Parser() throws IOException {
 		for (File f : getAllFiles()){
 			parse(f);
-			System.out.println("\n\n");
+			//System.out.println("\n\n");
 		}
 	}
 
@@ -103,7 +105,7 @@ public class Parser {
 					try{
 						newest.setDaysAndTime(trim(scan.nextLine()), trim(scan.nextLine()));
 					}catch(Exception e){
-						System.out.println("Class TBA");
+						//System.out.println("Class TBA");
 					}
 					
 					skipLines(scan, 9);
@@ -117,9 +119,11 @@ public class Parser {
 		}
 
 		new Date();
-
-		for (Course c : classes)
-			System.out.println(c);
+		
+		courses.add(classes);
+		
+//		for (Course c : classes)
+//			System.out.println(c);
 
 		scan.close();
 	}
