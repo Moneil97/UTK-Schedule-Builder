@@ -5,6 +5,20 @@ public class Incrementor {
 	int x[];
 	int max[];
 	
+	public Incrementor(int size, int max) {
+		
+		x = new int[size];
+		this.max = new int[size];
+		
+		for (int i=0; i < size; i++){
+			this.max[i] = max;
+		}
+//		
+//		for (int i = 0; i < size; i++)
+//			max[i] = maxes[i];
+		
+	}
+	
 	public Incrementor(int size, int...maxes) {
 		
 		if (maxes.length != size){
@@ -35,7 +49,9 @@ public class Incrementor {
 	
 	
 	public static void main(String[] args) {
-		Incrementor i = new Incrementor(3, 4,3,2);	
+//		Incrementor i = new Incrementor(3, 4,3,2);	
+		
+		Incrementor i = new Incrementor(3, 1);
 		
 		while (true){
 			i.increment();
