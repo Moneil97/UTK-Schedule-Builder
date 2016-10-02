@@ -1,7 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.IOException;
 import java.util.List;
 
@@ -106,24 +109,45 @@ public class GUI2 extends JFrame {
 			int minTime = 8 * 60;
 			int maxTime = (5 + 12) * 60;
 			float scale;
+			int boxWidth;
 
 			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponents(g);
-
+			protected void paintComponent(Graphics g1) {
+				super.paintComponents(g1);
+				Graphics2D g = (Graphics2D) g1;
+				g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+				g.setFont(new Font("Arial", Font.PLAIN, 12));
+				
 				scale = (float) this.getHeight() / (maxTime - minTime);
-				int width = this.getWidth() / 5;
+				boxWidth = this.getWidth() / 5;
 				
 				//white background
 				g.setColor(Color.white);
 				g.fillRect(0, 0, getWidth(), getHeight());
 
 				//draw boxes for each class
-				g.setColor(Color.green);
+				
 				for (Course c : x) {
 					for (ClassGroup r : c.classGroups) {
 						for (Days d : r.week.days) {
-							g.fillRect(d.dayNumber * width, convertX(r.week.time), width, convertHeight(r.week.time));
+							g.setColor(Color.green);
+							int boxHeight = convertHeight(r.week.time);
+							g.fillRect(d.dayNumber * boxWidth, convertY(r.week.time), boxWidth, boxHeight);
+							g.setColor(Color.black);
+							if (boxHeight > 12){
+								g.drawString(trimIfNeeded(g, c.getTitle() + " (" + c.subject+ " " + c.course + ")"), d.dayNumber * boxWidth+2, convertY(r.week.time)+12);
+								if (boxHeight > 26){
+									g.drawString(trimIfNeeded(g, c.teacher), d.dayNumber * boxWidth+2, convertY(r.week.time)+26);
+									if (boxHeight > 40){
+										g.drawString(trimIfNeeded(g,c.location), d.dayNumber * boxWidth+2, convertY(r.week.time)+40);
+										if (boxHeight > 54){
+											g.drawString(trimIfNeeded(g,c.time), d.dayNumber * boxWidth+2, convertY(r.week.time)+54);
+										}
+									}
+									
+								}
+							}
+							
 						}
 					}
 				}
@@ -131,16 +155,29 @@ public class GUI2 extends JFrame {
 				//draw day dividing lines
 				g.setColor(Color.red);
 				for (int i = 1; i < 7; i++)
-					g.drawLine(width * i, 0, width * i, getHeight());
+					g.drawLine(boxWidth * i, 0, boxWidth * i, getHeight());
 
 			}
 
-			int convertX(Time t) {
+			int convertY(Time t) {
 				return (int) ((t.start - minTime) * scale);
 			}
 
 			int convertHeight(Time t) {
+				//System.out.println((int) ((t.end - t.start) * scale));
 				return (int) ((t.end - t.start) * scale);
+			}
+			
+			String trimIfNeeded(Graphics2D g, String text){
+				int width = g.getFontMetrics().stringWidth(text);
+				
+				if (width > boxWidth){
+					text = text.substring(0,text.length()-1);
+					return trimIfNeeded(g, text);
+				}
+				else
+					return text;
+				
 			}
 
 		};
