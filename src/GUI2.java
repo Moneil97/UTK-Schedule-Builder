@@ -164,7 +164,6 @@ public class GUI2 extends JFrame {
 			}
 
 			int convertHeight(Time t) {
-				//System.out.println((int) ((t.end - t.start) * scale));
 				return (int) ((t.end - t.start) * scale);
 			}
 			

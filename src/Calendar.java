@@ -37,7 +37,7 @@ public class Calendar {
 			}
 		}
 
-		System.out.println(possibleCombinations);
+		//System.out.println(possibleCombinations);
 		System.out.println(possibleCombinations.size() + " / " + total);
 	}
 	

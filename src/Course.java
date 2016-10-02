@@ -159,9 +159,12 @@ enum Days {
 class Time {
 
 	int start = 0, end = 0;
+	String outputTime;
 
 	public Time(String startString, String endString) {
 
+		outputTime = startString + " - " + endString;
+		
 		// Start Time
 		FastIO t = new FastIO(startString);
 		int hour = t.nextInt();
@@ -180,7 +183,7 @@ class Time {
 	}
 	
 	public String toString() {
-		return start + " - " + end;
+		return outputTime;//start + " - " + end;
 	}
 
 }
