@@ -13,10 +13,6 @@ public class Incrementor {
 		for (int i=0; i < size; i++){
 			this.max[i] = max;
 		}
-//		
-//		for (int i = 0; i < size; i++)
-//			max[i] = maxes[i];
-		
 	}
 	
 	public Incrementor(int size, int...maxes) {
@@ -28,10 +24,6 @@ public class Incrementor {
 		
 		x = new int[size];
 		max = maxes; 
-//		
-//		for (int i = 0; i < size; i++)
-//			max[i] = maxes[i];
-		
 	}
 	
 	public void increment() throws ArrayIndexOutOfBoundsException{
@@ -46,17 +38,15 @@ public class Incrementor {
 		}	
 	}
 	
-	
-	
 	public static void main(String[] args) {
-//		Incrementor i = new Incrementor(3, 4,3,2);	
 		
-		Incrementor i = new Incrementor(3, 1);
+		Incrementor i = new Incrementor(3, 4,3,2);	
+		
+		//Incrementor i = new Incrementor(3, 1);
 		
 		while (true){
 			i.increment();
 			System.out.println(Arrays.toString(i.x));
 		}
 	}
-
 }

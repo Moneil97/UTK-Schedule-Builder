@@ -148,12 +148,14 @@ class ClassGroup {
 
 enum Days {
 
-	MONDAY("M"), TUESDAY("T"), WEDNESDAY("W"), THURSDAY("R"), FRIDAY("F"), ERROR("E");
+	MONDAY("M", 0), TUESDAY("T", 1), WEDNESDAY("W", 2), THURSDAY("R", 3), FRIDAY("F", 4), ERROR("E", 5);
 
 	String abr;
+	int dayNumber;
 
-	Days(String abbreviation) {
+	Days(String abbreviation, int dayNum) {
 		abr = abbreviation;
+		dayNumber = dayNum;
 	}
 
 	public static Days getDay(char abr) {

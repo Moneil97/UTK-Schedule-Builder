@@ -4,9 +4,14 @@ import java.util.List;
 
 public class Calendar {
 
+	List<List<Course>> possibleCombinations = new ArrayList<>();
+	
+	public List<List<Course>> getPossibleCombinations() {
+		return possibleCombinations;
+	}
+
 	public Calendar() throws IOException {
 
-		List<List<Course>> possibleCombinations = new ArrayList<>();
 		List<List<Course>> courses = new Parser().courses;
 		int maxes[] = new int[courses.size()];
 		for (int i = 0; i < courses.size(); i++) {
@@ -35,7 +40,7 @@ public class Calendar {
 		System.out.println(possibleCombinations);
 		System.out.println(possibleCombinations.size() + " / " + total);
 	}
-
+	
 	private boolean checkForOverlap(List<Course> classesToTest) {
 
 		for (Days day : Days.values()){
