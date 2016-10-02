@@ -19,6 +19,8 @@ import javax.swing.JScrollPane;
 @SuppressWarnings("serial")
 public class GUI2 extends JFrame {
 
+	JCheckBox chckbxMonday = null, chckbxTuesday = null, chckbxWednesday = null, chckbxThursday = null, chckbxFriday = null;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -40,13 +42,13 @@ public class GUI2 extends JFrame {
 	 * @throws IOException
 	 */
 
-	List<Course> x;
+	//List<Course> x;
 	Calendar cal;
 
 	public GUI2() throws IOException {
 
 		cal = new Calendar();
-		x = cal.compute().get(0);
+		cal.compute();
 		initialize();
 		
 		new Thread(new Runnable() {
@@ -60,6 +62,8 @@ public class GUI2 extends JFrame {
 			
 		}).start();
 	}
+	
+	
 
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,31 +82,47 @@ public class GUI2 extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cal.setFullFilter(!chckbxShowFullClasses.isSelected());
+				cal.compute();
+				repaint();
 			}
 		});
 		FullOrNot.add(chckbxShowFullClasses);
 
 		JPanel daysToShow = new JPanel();
 		panel.add(daysToShow);
-
-		JCheckBox chckbxMonday = new JCheckBox("Monday");
+		
+		ActionListener dayCheckBoxActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cal.setDayFilter(new boolean[] {!chckbxMonday.isSelected(), !chckbxTuesday.isSelected(),!chckbxWednesday.isSelected(),!chckbxThursday.isSelected(), !chckbxFriday.isSelected()});
+				cal.compute();
+				repaint();
+			}
+		};
+		
+		chckbxMonday = new JCheckBox("Monday");
 		chckbxMonday.setSelected(true);
+		chckbxMonday.addActionListener(dayCheckBoxActionListener);
 		daysToShow.add(chckbxMonday);
 
-		JCheckBox chckbxTuesday = new JCheckBox("Tuesday");
+		chckbxTuesday = new JCheckBox("Tuesday");
 		chckbxTuesday.setSelected(true);
+		chckbxTuesday.addActionListener(dayCheckBoxActionListener);
 		daysToShow.add(chckbxTuesday);
 
-		JCheckBox chckbxWednesday = new JCheckBox("Wednesday");
+		chckbxWednesday = new JCheckBox("Wednesday");
 		chckbxWednesday.setSelected(true);
+		chckbxWednesday.addActionListener(dayCheckBoxActionListener);
 		daysToShow.add(chckbxWednesday);
 
-		JCheckBox chckbxThursday = new JCheckBox("Thursday");
+		chckbxThursday = new JCheckBox("Thursday");
 		chckbxThursday.setSelected(true);
+		chckbxThursday.addActionListener(dayCheckBoxActionListener);
 		daysToShow.add(chckbxThursday);
 
-		JCheckBox chckbxFriday = new JCheckBox("Friday");
+		chckbxFriday = new JCheckBox("Friday");
 		chckbxFriday.setSelected(true);
+		chckbxFriday.addActionListener(dayCheckBoxActionListener);
 		daysToShow.add(chckbxFriday);
 
 		JScrollPane timesToShow = new JScrollPane(new JLabel("times to show"));
@@ -147,29 +167,39 @@ public class GUI2 extends JFrame {
 
 				//draw boxes for each class
 				
-				for (Course c : x) {
-					for (ClassGroup r : c.classGroups) {
-						for (Days d : r.week.days) {
-							g.setColor(Color.green);
-							int boxHeight = convertHeight(r.week.time);
-							g.fillRect(d.dayNumber * boxWidth, convertY(r.week.time), boxWidth, boxHeight);
-							g.setColor(Color.black);
-							if (boxHeight > 12){
-								g.drawString(trimIfNeeded(g, c.getTitle() + " (" + c.subject+ " " + c.course + ")"), d.dayNumber * boxWidth+2, convertY(r.week.time)+12);
-								if (boxHeight > 26){
-									g.drawString(trimIfNeeded(g, r.teacher), d.dayNumber * boxWidth+2, convertY(r.week.time)+26);
-									if (boxHeight > 40){
-										g.drawString(trimIfNeeded(g,r.location), d.dayNumber * boxWidth+2, convertY(r.week.time)+40);
-										if (boxHeight > 54){
-											g.drawString(trimIfNeeded(g,r.week.time.toString()), d.dayNumber * boxWidth+2, convertY(r.week.time)+54);
+				if (!cal.possibleCombinations.isEmpty()){
+				
+					for (Course c : cal.possibleCombinations.get(0)) {
+						for (ClassGroup r : c.classGroups) {
+							for (Days d : r.week.days) {
+								g.setColor(Color.green);
+								int boxHeight = convertHeight(r.week.time);
+								g.fillRect(d.dayNumber * boxWidth, convertY(r.week.time), boxWidth, boxHeight);
+								g.setColor(Color.black);
+								if (boxHeight > 12){
+									g.drawString(trimIfNeeded(g, c.getTitle() + " (" + c.subject+ " " + c.course + ")"), d.dayNumber * boxWidth+2, convertY(r.week.time)+12);
+									if (boxHeight > 26){
+										g.drawString(trimIfNeeded(g, r.teacher), d.dayNumber * boxWidth+2, convertY(r.week.time)+26);
+										if (boxHeight > 40){
+											g.drawString(trimIfNeeded(g,r.location), d.dayNumber * boxWidth+2, convertY(r.week.time)+40);
+											if (boxHeight > 54){
+												g.drawString(trimIfNeeded(g,r.week.time.toString()), d.dayNumber * boxWidth+2, convertY(r.week.time)+54);
+											}
 										}
+										
 									}
-									
 								}
 							}
-							
 						}
 					}
+				}
+				else{
+					//display error
+					g.setColor(Color.orange);
+					g.fillRect(this.getWidth()/2-100, this.getHeight()/2-50, 200, 100);
+					g.setColor(Color.red);
+					g.setFont(new Font("Arial", Font.PLAIN, 16));
+					g.drawString("No Available Classes", this.getWidth()/2-80, this.getHeight()/2);
 				}
 				
 				//draw day dividing lines

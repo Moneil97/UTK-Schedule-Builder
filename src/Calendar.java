@@ -51,6 +51,15 @@ public class Calendar {
 			}
 		}
 		
+		Days[] days = {Days.MONDAY, Days.TUESDAY, Days.WEDNESDAY, Days.THURSDAY, Days.FRIDAY};
+		
+		for (int i=0; i<daysFilter.length; i++)
+			if (daysFilter[i])
+				for (Course c: classesToTest)
+					for (ClassGroup g : c.classGroups)
+						if (g.week.days.contains(days[i]))
+							return true;
+		
 		return false;
 	}
 
@@ -60,6 +69,7 @@ public class Calendar {
 	public List<List<Course>> compute(){
 
 		inc.reset();
+		possibleCombinations.clear();
 		
 		int total = 1;
 		for (;; total++) {
