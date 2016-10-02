@@ -5,7 +5,7 @@ public class Course {
 
 	int crn, course, size, space;
 	float credit;
-	String subject, title, teacher, location, days, time;
+	String subject, title;
 
 	public String getSubject() {
 		return subject;
@@ -67,37 +67,17 @@ public class Course {
 		this.title = title;
 	}
 
-	// public String getTeacher() {
-	// return teacher;
-	// }
-
 	public void setTeacher(String teacher) {
-		this.teacher = teacher;
-
 		getLatestClassGroup().setTeacher(teacher);
-
 	}
 
-	// public String getLocation() {
-	// return location;
-	// }
-
 	public void setLocation(String location) {
-		this.location = location;
-
 		getLatestClassGroup().setLocation(location);
 	}
 
 	public void setDaysAndTime(String days, String time) {
-		// These are only used for being printed, they will only print out the
-		// last set
-		this.days = days;
-		this.time = time;
-
 		for (char c : days.toCharArray())
-			// week.addTime(Days.getDay(c), time);
 			getLatestClassGroup().addATime(Days.getDay(c), time);
-
 	}
 
 	public String toString() {
@@ -196,9 +176,7 @@ class Time {
 		if (endString.contains("pm") && hour != 12)
 			end += 12 * 60;
 		t.close();
-
-		// System.out.println(startString + " - " + endString);
-		// System.out.println(start + " - " + end);
+		
 	}
 	
 	public String toString() {

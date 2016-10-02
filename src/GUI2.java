@@ -137,11 +137,11 @@ public class GUI2 extends JFrame {
 							if (boxHeight > 12){
 								g.drawString(trimIfNeeded(g, c.getTitle() + " (" + c.subject+ " " + c.course + ")"), d.dayNumber * boxWidth+2, convertY(r.week.time)+12);
 								if (boxHeight > 26){
-									g.drawString(trimIfNeeded(g, c.teacher), d.dayNumber * boxWidth+2, convertY(r.week.time)+26);
+									g.drawString(trimIfNeeded(g, r.teacher), d.dayNumber * boxWidth+2, convertY(r.week.time)+26);
 									if (boxHeight > 40){
-										g.drawString(trimIfNeeded(g,c.location), d.dayNumber * boxWidth+2, convertY(r.week.time)+40);
+										g.drawString(trimIfNeeded(g,r.location), d.dayNumber * boxWidth+2, convertY(r.week.time)+40);
 										if (boxHeight > 54){
-											g.drawString(trimIfNeeded(g,c.time), d.dayNumber * boxWidth+2, convertY(r.week.time)+54);
+											g.drawString(trimIfNeeded(g,r.week.time.toString()), d.dayNumber * boxWidth+2, convertY(r.week.time)+54);
 										}
 									}
 									
@@ -184,5 +184,4 @@ public class GUI2 extends JFrame {
 		getContentPane().add(center, BorderLayout.CENTER);
 		this.setVisible(true);
 	}
-
 }
