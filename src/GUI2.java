@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -39,12 +41,24 @@ public class GUI2 extends JFrame {
 	 */
 
 	List<Course> x;
+	Calendar cal;
 
 	public GUI2() throws IOException {
 
-		x = new Calendar().possibleCombinations.get(0);
-
+		cal = new Calendar();
+		x = cal.compute().get(0);
 		initialize();
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				
+				
+			}
+			
+		}).start();
 	}
 
 	private void initialize() {
@@ -59,7 +73,14 @@ public class GUI2 extends JFrame {
 		JPanel FullOrNot = new JPanel();
 		panel.add(FullOrNot);
 
-		JCheckBox chckbxShowFullClasses = new JCheckBox("Show Full Classes");
+		JCheckBox chckbxShowFullClasses = new JCheckBox("Full Classes");
+		chckbxShowFullClasses.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cal.setFullFilter(!chckbxShowFullClasses.isSelected());
+			}
+		});
 		FullOrNot.add(chckbxShowFullClasses);
 
 		JPanel daysToShow = new JPanel();

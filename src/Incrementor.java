@@ -49,4 +49,9 @@ public class Incrementor {
 			System.out.println(Arrays.toString(i.x));
 		}
 	}
+
+	public void reset() {
+		for (int i=0;i<x.length;i++)
+			x[i] = 0;
+	}
 }

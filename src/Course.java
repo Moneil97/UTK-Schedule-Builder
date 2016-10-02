@@ -6,6 +6,7 @@ public class Course {
 	int crn, course, size, space;
 	float credit;
 	String subject, title;
+	boolean full;
 
 	public String getSubject() {
 		return subject;
@@ -96,6 +97,11 @@ public class Course {
 
 	public void addClassGroup() {
 		classGroups.add(new ClassGroup());
+	}
+
+	public void setSeats(int cap, int actual, int remaining) {
+		if (remaining > 0)
+			full = false;
 	}
 
 }

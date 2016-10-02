@@ -57,16 +57,10 @@ public class Parser {
 
 					// Get days and times
 					newest.setDaysAndTime(trim(scan.nextLine()), trim(scan.nextLine()));
-
-					// Get class cap
-					line = scan.nextLine();
-
-					// Get class actual
-					line = scan.nextLine();
-
-					// Get class remaining
-					line = scan.nextLine();
-
+					
+					// Get class cap, actual, remaining
+					newest.setSeats(new FastIO(scan.nextLine()).nextInt(),new FastIO(scan.nextLine()).nextInt(),new FastIO(scan.nextLine()).nextInt());
+					
 					// Get wl stuff
 					line = scan.nextLine();
 					line = scan.nextLine();

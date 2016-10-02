@@ -10,17 +10,57 @@ public class Calendar {
 		return possibleCombinations;
 	}
 
-	public Calendar() throws IOException {
-
-		List<List<Course>> courses = new Parser().courses;
-		int maxes[] = new int[courses.size()];
-		for (int i = 0; i < courses.size(); i++) {
-			maxes[i] = courses.get(i).size() - 1;
+	List<List<Course>> courses;
+	
+	boolean[] daysFilter = {false,false,false,false,false};
+	
+	public void setDayFilter(boolean[] days){
+		daysFilter = days;
+	}
+	
+	List<Time> timesFilter = new ArrayList<>();
+	
+	public void setTimesFilter(List<Time> times){
+		timesFilter = times;
+	}
+	
+	List<String> teachersFilter = new ArrayList<>();
+	
+	public void setTeacherFilter(List<String> teachers){
+		teachersFilter = teachers;
+	}
+	
+	List<String> locationsFilter = new ArrayList<>();
+	
+	public void setLocationsFilter(List<String> locations){
+		locationsFilter = locations;
+	}
+	
+	boolean fullFilter = true;
+	
+	public void setFullFilter(boolean full){
+		fullFilter = full;
+	}
+	
+	private boolean filtered(List<Course> classesToTest) {
+		
+		if (fullFilter){
+			for (Course c: classesToTest){
+				if (c.full)
+					return true;
+			}
 		}
-		Incrementor inc = new Incrementor(courses.size(), maxes);
+		
+		return false;
+	}
 
-		// System.out.println(Arrays.toString(maxes));
+	
+	Incrementor inc;
+	
+	public List<List<Course>> compute(){
 
+		inc.reset();
+		
 		int total = 1;
 		for (;; total++) {
 			try {
@@ -28,7 +68,7 @@ public class Calendar {
 				for (int i = 0; i < courses.size(); i++) {
 					classesToTest.add(courses.get(i).get(inc.x[i]));
 				}
-				if (!checkForOverlap(classesToTest)) {
+				if (!checkForOverlap(classesToTest) || !filtered(classesToTest)) {
 					possibleCombinations.add(classesToTest);
 				}
 				inc.increment();
@@ -37,8 +77,24 @@ public class Calendar {
 			}
 		}
 
-		//System.out.println(possibleCombinations);
 		System.out.println(possibleCombinations.size() + " / " + total);
+		return possibleCombinations;
+	}
+	
+	
+
+	public Calendar() throws IOException {
+
+		//takes ~.4 seconds
+		courses = new Parser().courses;
+		
+		int maxes[] = new int[courses.size()];
+		for (int i = 0; i < courses.size(); i++) {
+			maxes[i] = courses.get(i).size() - 1;
+		}
+		
+		inc = new Incrementor(courses.size(), maxes);
+		
 	}
 	
 	private boolean checkForOverlap(List<Course> classesToTest) {
