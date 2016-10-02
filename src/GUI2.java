@@ -75,7 +75,6 @@ public class GUI2 extends JFrame {
 
 		JCheckBox chckbxShowFullClasses = new JCheckBox("Full Classes");
 		chckbxShowFullClasses.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cal.setFullFilter(!chckbxShowFullClasses.isSelected());

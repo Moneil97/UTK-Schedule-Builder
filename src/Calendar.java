@@ -68,7 +68,7 @@ public class Calendar {
 				for (int i = 0; i < courses.size(); i++) {
 					classesToTest.add(courses.get(i).get(inc.x[i]));
 				}
-				if (!checkForOverlap(classesToTest) || !filtered(classesToTest)) {
+				if (!checkForOverlap(classesToTest) && !filtered(classesToTest)) {
 					possibleCombinations.add(classesToTest);
 				}
 				inc.increment();
