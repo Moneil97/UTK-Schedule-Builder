@@ -82,14 +82,6 @@ public class GUI2 extends JFrame {
 		chckbxFriday.setSelected(true);
 		daysToShow.add(chckbxFriday);
 
-		JCheckBox chckbxSaturday = new JCheckBox("Saturday");
-		chckbxSaturday.setSelected(true);
-		daysToShow.add(chckbxSaturday);
-
-		JCheckBox chckbxSunday = new JCheckBox("Sunday");
-		chckbxSunday.setSelected(true);
-		daysToShow.add(chckbxSunday);
-
 		JScrollPane timesToShow = new JScrollPane(new JLabel("times to show"));
 		timesToShow.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		timesToShow.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -120,35 +112,14 @@ public class GUI2 extends JFrame {
 				super.paintComponents(g);
 
 				scale = (float) this.getHeight() / (maxTime - minTime);
-
+				int width = this.getWidth() / 5;
+				
+				//white background
 				g.setColor(Color.white);
 				g.fillRect(0, 0, getWidth(), getHeight());
 
-				int a = this.getWidth() / 7;
-
-				g.setColor(Color.red);
-				for (int i = 1; i < 7; i++)
-					g.drawLine(a * i, 0, a * i, getHeight());
-
-				// assume we have class from 8 (480) to 8:50 (530)
-
-				int width = this.getWidth() / 7;
-
+				//draw boxes for each class
 				g.setColor(Color.green);
-				/*
-				 * //Monday 8:00-8:50 Time test1 = new Time("8:00am","8:50am");
-				 * g.fillRect(width*0, convertX(test1), width,
-				 * convertHeight(test1));
-				 * 
-				 * //Wednesday 10:10-11:00 (610-660) Time test2 = new
-				 * Time("10:10am", "11:00am"); g.fillRect(width*2,
-				 * convertX(test2), width, convertHeight(test2));
-				 * 
-				 * //Friday (9-4) Time test3 = new Time("9:00am","4:00pm");
-				 * g.fillRect(width*4, convertX(test3), width,
-				 * convertHeight(test3));
-				 */
-
 				for (Course c : x) {
 					for (ClassGroup r : c.classGroups) {
 						for (Days d : r.week.days) {
@@ -156,6 +127,11 @@ public class GUI2 extends JFrame {
 						}
 					}
 				}
+				
+				//draw day dividing lines
+				g.setColor(Color.red);
+				for (int i = 1; i < 7; i++)
+					g.drawLine(width * i, 0, width * i, getHeight());
 
 			}
 
@@ -168,7 +144,6 @@ public class GUI2 extends JFrame {
 			}
 
 		};
-		// center.setMinimumSize(new Dimension(400, 400));
 		getContentPane().add(center, BorderLayout.CENTER);
 		this.setVisible(true);
 	}
